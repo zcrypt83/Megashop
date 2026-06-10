@@ -1,0 +1,53 @@
+services:
+  mongodb:
+    image: mongo:7
+    container_name: megashop-mongodb
+    restart: unless-stopped
+    ports:
+      - "27017:27017"
+    environment:
+      MONGO_INITDB_ROOT_USERNAME: ${MONGO_ADMIN_USER}
+      MONGO_INITDB_ROOT_PASSWORD: ${MONGO_ADMIN_PASSWORD}
+      MONGO_INITDB_DATABASE: megashop
+    volumes:
+      - mongo_data:/data/db
+      - ./scripts/mongo-init.js:/docker-entrypoint-initdb.d/mongo-init.js:ro
+
+  redis:
+    image: redis:7-alpine
+    container_name: megashop-redis
+    restart: unless-stopped
+    ports:
+      - "6379:6379"
+    command: ["redis-server", "--appendonly", "yes"]
+    volumes:
+      - redis_data:/data
+
+  backend:
+    build: ./backend
+    container_name: megashop-backend
+    restart: unless-stopped
+    ports:
+      - "4000:4000"
+    env_file:
+      - .env
+    environment:
+      MONGO_URI: mongodb://${MONGO_ADMIN_USER}:${MONGO_ADMIN_PASSWORD}@mongodb:27017/megashop?authSource=admin
+      REDIS_URL: redis://redis:6379
+      FRONTEND_URL: http://localhost:5173
+    depends_on:
+      - mongodb
+      - redis
+
+  frontend:
+    build: ./frontend
+    container_name: megashop-frontend
+    restart: unless-stopped
+    ports:
+      - "5173:5173"
+    depends_on:
+      - backend
+
+volumes:
+  mongo_data:
+  redis_data:

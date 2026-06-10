@@ -1,0 +1,23 @@
+server:
+  port: ${PORT:4000}
+
+spring:
+  application:
+    name: megashop-backend
+  data:
+    mongodb:
+      uri: ${MONGO_URI}
+      auto-index-creation: false
+    redis:
+      url: ${REDIS_URL:redis://localhost:6379}
+      timeout: 2s
+  jackson:
+    default-property-inclusion: non_null
+
+megashop:
+  frontend-url: ${FRONTEND_URL:http://localhost:5173}
+  jwt:
+    secret: ${JWT_SECRET}
+    refresh-secret: ${JWT_REFRESH_SECRET}
+    access-expiration-ms: ${JWT_ACCESS_EXPIRATION_MS:900000}
+    refresh-expiration-ms: ${JWT_REFRESH_EXPIRATION_MS:604800000}

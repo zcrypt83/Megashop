@@ -1,0 +1,53 @@
+{
+  "info": {
+    "name": "Megashop API v1",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+  },
+  "variable": [
+    { "key": "baseUrl", "value": "http://localhost:4000/api/v1" },
+    { "key": "token", "value": "" },
+    { "key": "demoPassword", "value": "" }
+  ],
+  "item": [
+    {
+      "name": "Health",
+      "request": { "method": "GET", "url": "{{baseUrl}}/health" }
+    },
+    {
+      "name": "Auth Login",
+      "request": {
+        "method": "POST",
+        "header": [{ "key": "Content-Type", "value": "application/json" }],
+        "url": "{{baseUrl}}/auth/login",
+        "body": { "mode": "raw", "raw": "{\"email\":\"admin@megashop.pe\",\"password\":\"{{demoPassword}}\"}" }
+      }
+    },
+    {
+      "name": "Productos",
+      "request": { "method": "GET", "url": "{{baseUrl}}/productos" }
+    },
+    {
+      "name": "Crear Pedido",
+      "request": {
+        "method": "POST",
+        "header": [
+          { "key": "Content-Type", "value": "application/json" },
+          { "key": "Authorization", "value": "Bearer {{token}}" }
+        ],
+        "url": "{{baseUrl}}/pedidos",
+        "body": {
+          "mode": "raw",
+          "raw": "{\"clienteId\":\"0000000000000000000186a1\",\"direccionEntrega\":{\"linea1\":\"Av. Central 101\",\"distrito\":\"Miraflores\",\"ciudad\":\"Lima\"},\"items\":[{\"productoId\":\"0000000000000000000493e1\",\"nombre\":\"Tecnologia Producto 1\",\"cantidad\":1,\"precioUnitario\":99.9}],\"pago\":{\"metodo\":\"yape\",\"estado\":\"pagado\"}}"
+        }
+      }
+    },
+    {
+      "name": "Dashboard Resumen",
+      "request": {
+        "method": "GET",
+        "header": [{ "key": "Authorization", "value": "Bearer {{token}}" }],
+        "url": "{{baseUrl}}/dashboard/resumen"
+      }
+    }
+  ]
+}

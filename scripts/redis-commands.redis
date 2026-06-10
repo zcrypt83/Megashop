@@ -1,0 +1,11 @@
+SET otp:cliente:cli00001 839201 EX 300
+GET otp:cliente:cli00001
+HSET order_status:ped00001 estado en_ruta total 189.90 updatedAt 2026-06-08T10:00:00Z
+HGETALL order_status:ped00001
+LPUSH client_orders:cli00001 ped00001 ped00044 ped00102
+LRANGE client_orders:cli00001 0 9
+SADD active_sessions usr00001 usr00002 usr00003
+EXPIRE active_sessions 900
+ZADD most_viewed_products 91 prd00010 77 prd00042 63 prd00111
+ZRANGE most_viewed_products 0 9 REV WITHSCORES
+DEL cache:products:tecnologia
