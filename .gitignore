@@ -8,7 +8,7 @@ target/
 coverage/
 *.log
 .docker-cli/
-tools/apache-maven-*/
+tools/
 mongodb-auth-result.txt
 docs/
 data/
